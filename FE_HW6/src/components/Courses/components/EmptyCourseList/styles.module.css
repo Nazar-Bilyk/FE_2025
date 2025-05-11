@@ -1,0 +1,37 @@
+.emptyContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 50px;
+  margin-top: 20px;
+}
+
+.emptyText {
+  margin: 0;
+  margin-bottom: 24px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #333e48;
+}
+
+.emptySubText {
+  margin: 0;
+  margin-bottom: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #333e48;
+}
+
+.permissionMessage {
+  margin: 0;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #d12020;
+  padding: 10px;
+  border: 1px solid #f0cbcb;
+  background-color: #fff5f5;
+  border-radius: 4px;
+}

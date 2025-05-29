@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Manager</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  background: #fff;
+  padding: 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 40px; 
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+
+.user-list {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  width: 400px;
+  position: relative;
+}
+
+.user-card {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 20px 20px 0 20px;
+  position: relative;
+  z-index: 0;
+  margin-top: -40px;
+}
+
+.user-card:hover {
+  transform: scale(1.12);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  z-index: 10;
+}
+
+.user-card h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.user-card p {
+  margin: 5px 0 15px;
+  color: #666;
+  font-weight: bold;
+  text-align: center;
+  font-size: 0.75rem;
+  z-index: 1;
+}
+
+.user-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  background: #e7e7e7;
+  color: #000;
+  border-radius: 0 0 15px 15px;
+  margin: 10px -20px -10px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.user-details div {
+  flex: 1;
+  padding: 8px 5px;
+  border-right: 1px solid #ccc;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: normal;
+}
+
+.user-details div span:first-child {
+  font-size: 0.65rem;
+  color: #888;
+}
+
+.user-details div span:last-child {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.user-details div:last-child {
+  border-right: none;
+}
+
+/* EDIT & DELETE BUTTONS */
+.card-actions {
+  position: absolute;
+  top: -10px;
+  right: 0;
+  display: flex;
+  gap: 5px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  width: 33%;
+  justify-content: flex-end;
+  padding-right: 20px;
+}
+
+.user-card:hover .card-actions {
+  opacity: 1;
+}
+
+.card-actions button {
+  flex: 1;
+  border: none;
+  background: #ccc;
+  color: white;
+  padding: 5px 0;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.card-actions button.edit-btn:hover {
+  background-color: orange;
+}
+
+.card-actions button.delete-btn:hover {
+  background-color: red;
+}
+
+/* SPINNER */
+#spinner {
+  display: none;
+  margin-bottom: 20px;
+}
+
+#spinner.active {
+  display: block;
+}
+
+/* RIGHT PANEL */
+#right-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 320px;
+}
+
+/* EDITOR */
+.editor {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
+  border-left: 1px solid #ccc;
+  padding-left: 20px;
+}
+
+.editor.active {
+  display: flex;
+}
+
+.editor input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+  background-color: #e7e7e7;
+  outline: none;
+}
+
+.editor button {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  background-color: #ccc;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  min-width: 100px;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  align-self: center;
+}
+
+.editor button.modified:hover {
+  background-color: #28a745;
+}
+
+.editor input:disabled {
+  background-color: #f4f4f4;
+}
+
+  </style>
+</head>
+<body>
+  <div>
+    <div id="spinner">Loading...</div>
+    <ul id="user-list" class="user-list"></ul>
+  </div>
+
+  <div id="right-panel">
+    <div class="editor" id="editor">
+      <input type="text" id="edit-name" />
+      <input type="text" id="edit-username" />
+      <input type="text" id="edit-phone" />
+      <input type="text" id="edit-website" />
+      <input type="text" id="edit-email" />
+      <button id="save-btn" class="save-btn">Save</button>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'https://jsonplaceholder.typicode.com/users';
+    const LOCAL_KEY = 'users_data';
+
+    const userList = document.getElementById('user-list');
+    const spinner = document.getElementById('spinner');
+    const editor = document.getElementById('editor');
+    const nameInput = document.getElementById('edit-name');
+    const usernameInput = document.getElementById('edit-username');
+    const phoneInput = document.getElementById('edit-phone');
+    const websiteInput = document.getElementById('edit-website');
+    const emailInput = document.getElementById('edit-email');
+    const saveBtn = document.getElementById('save-btn');
+
+    let selectedUser = null;
+    let originalData = {};
+    let localUsers = [];
+
+    const showSpinner = () => spinner.classList.add('active');
+    const hideSpinner = () => spinner.classList.remove('active');
+    const saveToLocal = (users) => localStorage.setItem(LOCAL_KEY, JSON.stringify(users));
+    const loadFromLocal = () => JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]');
+
+    const showEditor = () => editor.style.display = 'flex';
+    const hideEditor = () => editor.style.display = 'none';
+
+    const createUserItem = (user) => {
+      const li = document.createElement('li');
+      li.className = 'user-card';
+      li.dataset.id = user.id;
+
+      li.innerHTML = `
+        <h3>${user.name}</h3>
+        <p>@${user.username}</p>
+        <div class="user-details">
+          <div><span>phone</span><span>${user.phone}</span></div>
+          <div><span>website</span><span>${user.website}</span></div>
+          <div><span>email</span><span>${user.email}</span></div>
+        </div>
+        <div class="card-actions">
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        </div>
+      `;
+
+      li.querySelector('.edit-btn').onclick = () => {
+        selectedUser = user;
+        originalData = { ...user };
+        nameInput.value = user.name;
+        usernameInput.value = user.username;
+        phoneInput.value = user.phone;
+        websiteInput.value = user.website;
+        emailInput.value = user.email;
+        saveBtn.classList.remove('modified');
+        showEditor();
+      };
+
+      li.querySelector('.delete-btn').onclick = () => {
+        localUsers = localUsers.filter(u => u.id !== user.id);
+        saveToLocal(localUsers);
+        renderUsers(localUsers);
+        hideEditor();
+      };
+
+      return li;
+    };
+
+    const renderUsers = (users) => {
+      userList.innerHTML = '';
+      users.forEach(user => userList.appendChild(createUserItem(user)));
+    };
+
+    const fetchUsers = async () => {
+      showSpinner();
+      const stored = loadFromLocal();
+      if (stored.length > 0) {
+        localUsers = stored;
+        renderUsers(localUsers);
+        hideSpinner();
+        return;
+      }
+
+      const res = await fetch(API_URL);
+      const users = await res.json();
+      localUsers = users;
+      saveToLocal(users);
+      renderUsers(users);
+      hideSpinner();
+    };
+
+    const checkForChanges = () => {
+      const changed = (
+        nameInput.value !== originalData.name ||
+        usernameInput.value !== originalData.username ||
+        phoneInput.value !== originalData.phone ||
+        websiteInput.value !== originalData.website ||
+        emailInput.value !== originalData.email
+      );
+      saveBtn.classList.toggle('modified', changed);
+    };
+
+    [nameInput, usernameInput, phoneInput, websiteInput, emailInput].forEach(input => {
+      input.addEventListener('input', checkForChanges);
+    });
+
+    saveBtn.onclick = () => {
+      if (!selectedUser) return;
+      const updated = {
+        ...selectedUser,
+        name: nameInput.value,
+        username: usernameInput.value,
+        phone: phoneInput.value,
+        website: websiteInput.value,
+        email: emailInput.value,
+      };
+      localUsers = localUsers.map(u => u.id === updated.id ? updated : u);
+      saveToLocal(localUsers);
+      renderUsers(localUsers);
+      hideEditor();
+    };
+
+    fetchUsers();
+  </script>
+</body>
+</html>

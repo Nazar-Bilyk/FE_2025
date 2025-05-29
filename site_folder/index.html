@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FE_HW1</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="#home" class="logo">
+      <img src="img/logo.png" alt="Logo" style="height: 40px;">
+    </a>
+    <ul>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+<section id="home" style="display: flex; flex-direction: row-reverse; align-items: center; gap: 60px; padding: 20px;">
+    <div style="flex-grow: 1;">
+      <img src="img/healthcare-main.jpg" alt="Health Care" style="height: auto;">
+    </div>
+  
+    <div style="max-width: 500px;">
+      <h1>Welcome to Health Care</h1>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim unde voluptas perspiciatis praesentium velit. Placeat!</p>
+  
+      <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <div class="icon-button">
+          <img src="img/icons/cardiology.png" alt="Cardiology" class="icon-img" style="height: 40px;">
+        </div>
+        <div class="icon-button">
+          <img src="img/icons/dentistry.png" alt="Dentistry" class="icon-img" style="height: 40px;">
+        </div>
+        <div class="icon-button">
+          <img src="img/icons/laboratory.png" alt="Laboratory" class="icon-img" style="height: 40px;">
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+<section id="services" style="display: flex; align-items: center; padding: 20px; height: 300px;">
+    <div style="flex: 1; background-image: url('img/1.jpg'); background-size: cover; background-position: center; height: 100%;"></div>
+    
+    <div style="flex: 4; padding-left: 20px;">
+      <h2>Our Services</h2>
+      <p>High quality services for your health.</p>
+    </div>
+  </section>
+  
+
+
+  <section id="pricing" style="display: flex; align-items: center; padding: 20px; height: 300px;">
+    <div style="flex: 1; background-image: url('img/1.jpg'); background-size: cover; background-position: center; height: 100%;"></div>
+    
+    <div style="flex: 4; padding-left: 20px;">
+      <h2>Pricing</h2>
+      <p>Affordable prices for everyone.</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+
+    <form action="#">
+      <input type="text" name="fullname" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="tel" name="phone" placeholder="Phone" required>
+      <input type="date" name="date" required>
+
+      <input list="subjects" name="subject" placeholder="Subject" required>
+      <datalist id="subjects">
+        <option value="Cardiology">
+        <option value="Dentistry">
+        <option value="Laboratory">
+        <option value="Oftalmology">
+        <option value="Pediatrics">
+        <option value="Radiology">
+      </datalist>
+
+      <button type="submit">Submit</button>
+    </form>
+  </section>
+</main>
+
+<a href="#home" id="up-button">↑</a>
+
+</body>
+</html>

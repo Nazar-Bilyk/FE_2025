@@ -1,0 +1,42 @@
+.container {
+	display: flex;
+	flex-direction: column;
+}
+
+.courseInfo {
+	margin-top: 20px;
+	padding: 20px;
+	display: flex;
+	gap: 50px;
+	border-radius: 4px;
+	border: 1px solid #cfcfcf;
+	background: #fff;
+}
+
+.authorsList {
+	list-style: none;
+	padding-left: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.description {
+	width: 60%;
+	border-right: 1px solid #cfcfcf;
+}
+
+p {
+	padding-bottom: 0;
+}
+
+.backButton {
+  align-self: flex-end;
+  margin-top: 46px;
+}
+
+.authorsContainer {
+  display: flex;
+  gap: 10px;
+}

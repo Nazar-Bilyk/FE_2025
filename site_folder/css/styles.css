@@ -1,0 +1,151 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+  }
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+  }
+  
+  a:hover {
+    color: #007BFF;
+  }
+  
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+  }
+  
+  nav ul {
+    display: flex;
+    list-style: none;
+  }
+  
+  nav ul li {
+    margin: 0 15px;
+  }
+  
+  nav ul li a {
+    font-weight: bold;
+  }
+  
+  #up-button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  #up-button:hover {
+    background: #0056b3;
+  }
+  
+  section {
+    padding: 120px 20px 60px 20px;
+    min-height: 100vh;
+  }
+  
+  form {
+    background: #f9f9f9;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+  }
+  
+  form input, form select, form button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  form input[type="date"] {
+    color: #555;
+  }
+  
+  form button {
+    background: transparent;
+    color: #007BFF;
+    border: 2px solid #007BFF;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  form button:hover {
+    background: #007BFF;
+    color: white;
+  }
+  
+  .icon-button {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #007BFF;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  .icon-button:hover {
+    background: #007BFF;
+    color: white;
+  }
+  
+    @media (max-width: 767px) {
+    nav ul {
+      flex-direction: column;
+      background: white;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      display: none;
+    }
+  
+    nav ul li {
+      margin: 10px 0;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 1279px) {
+    nav ul {
+      flex-direction: row;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    nav ul {
+      flex-direction: row;
+    }
+  }
+  
